@@ -12,7 +12,7 @@ export default function Card(props) {
         className="p-6 cursor-pointer bg-gradient-to-r from-gray-900 to-indigo-600 text-white rounded-t-lg"
       >
         <img
-          src={process.env.PUBLIC_URL + "/card-icon2.png"}
+          src="/card-icon2.png"
           alt="Card Icon"
           className="w-16 h-16 mx-auto mb-4"
         />

@@ -23,7 +23,7 @@ const FilmSelect = (props) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SWAP_API}/api/${props.urlName}`
+        `${process.env.NEXT_PUBLIC_SWAP_API}/api/${props.urlName}`
       );
 
       if (!response.ok) {
@@ -33,7 +33,7 @@ const FilmSelect = (props) => {
       const responseData = await response.json();
 
       const formattedData = [
-        { label: "Select a film", value: 0 },
+        { label: "Select a movie", value: 0 },
         ...responseData.results.map((item) => ({
           ...item,
           label: item["title"],

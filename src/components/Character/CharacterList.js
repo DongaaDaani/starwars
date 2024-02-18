@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { CharacterDialog } from "./CharacterDialog";
 import Card from "./Card";
@@ -9,38 +10,18 @@ import PlanetSelect from "../ui/PlanetSelect";
 import GenderSelect from "../ui/GenerSelect";
 
 export default function CharacterList() {
-
-  //  Every page characters summa, (use when some filter is active).
   const [allCharacter, setAllCharacter] = useState([]);
-
-  //List of characters (filtered by page or any conditions)
   const [characters, setCharacters] = useState(null);
-
-  // Selected character
   const [selectedCharacter, setSelectedCharacter] = useState();
-
-  //More detail dialog visible state
   const [modalVisible, setModalVisible] = useState(false);
-
-  // Pagination component states
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 9;
-
-  //Name filter
   const [filter, setFilter] = useState("");
-
-  //Film filter
   const [selectedFilm, setSelectedFilm] = useState(null);
   const [selectedFilmCharacters, setSelectedFilmCharacters] = useState();
-
-  // Plates filter
   const [selectedPlantes, setSelectedPlanets] = useState();
   const [selectedPlanetsCharacters, setSelectedPlanetsCharacter] = useState();
-
- //Gender filter
-  const [selectedGender,setSelectedGender] = useState();
-
-
+  const [selectedGender, setSelectedGender] = useState();
   const [loading, setLoading] = useState(false);
 
   const handlePageChange = (newPage) => {
@@ -54,7 +35,7 @@ export default function CharacterList() {
     while (currentPage <= 9) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_SWAP_API}/api/people/?page=${currentPage}`
+          `${process.env.NEXT_PUBLIC_SWAP_API}/api/people/?page=${currentPage}`
         );
         if (!response.ok) {
           throw new Error(`HTTP hiba! Állapotkód: ${response.status}`);
@@ -108,11 +89,11 @@ export default function CharacterList() {
 
   const filterByGender = (characters) => {
     return characters.filter((character) =>
-    character.gender.includes(selectedGender)
+      character.gender.includes(selectedGender)
     );
   };
 
-  const filterCharacters = (characters,name,filmCharacters,planetsCharacters) => {
+  const filterCharacters = (characters, name, filmCharacters, planetsCharacters) => {
     let filteredCharacters = [...characters];
 
     if (name) {
@@ -124,7 +105,7 @@ export default function CharacterList() {
     }
 
     if (selectedPlantes != 0 && selectedPlantes != null) {
-      filteredCharacters = filterByPlanets(filteredCharacters,planetsCharacters);
+      filteredCharacters = filterByPlanets(filteredCharacters, planetsCharacters);
     }
 
     if (selectedGender != null && selectedGender != "Select a gender") {
@@ -139,7 +120,7 @@ export default function CharacterList() {
       setLoading(true);
 
       const response = await fetch(
-        `${process.env.REACT_APP_SWAP_API}/api/people/?page=${currentPage}`
+        `${process.env.NEXT_PUBLIC_SWAP_API}/api/people/?page=${currentPage}`
       );
 
       if (!response.ok) {
@@ -150,12 +131,11 @@ export default function CharacterList() {
 
       let filteredCharacters = responseData.results;
 
-      if (
-        filter != "" ||
+      if (filter != "" ||
         (selectedFilm != 0 && selectedFilm != null) ||
-        (selectedPlantes != 0 && selectedPlantes != null) ||  (selectedGender != "Select a gender" && selectedGender != null)
+        (selectedPlantes != 0 && selectedPlantes != null) || (selectedGender != "Select a gender" && selectedGender != null)
       ) {
-        filteredCharacters = filterCharacters(allCharacter,filter,selectedFilmCharacters,selectedPlanetsCharacters);
+        filteredCharacters = filterCharacters(allCharacter, filter, selectedFilmCharacters, selectedPlanetsCharacters);
       }
       setCharacters(filteredCharacters);
     } catch (error) {
@@ -166,12 +146,13 @@ export default function CharacterList() {
   };
 
   useEffect(() => {
+    console.log("process.env.NEXT_PUBLIC_SWAP_API",process.env.NEXT_PUBLIC_SWAP_API)
     getAllCharacters();
   }, []);
 
   useEffect(() => {
     getListByPageNumber();
-  }, [currentPage, filter, selectedFilm, selectedPlantes,selectedGender]);
+  }, [currentPage, filter, selectedFilm, selectedPlantes, selectedGender]);
 
   return (
     <div
@@ -211,7 +192,7 @@ export default function CharacterList() {
               />
             </div>
 
-       
+
 
             <div className="ml-4">
               <GenderSelect
@@ -219,7 +200,7 @@ export default function CharacterList() {
                 value={selectedGender}
                 onChange={(e) => setSelectedGender(e.target.value)}
                 disabled={false}
-             
+
               />
             </div>
 

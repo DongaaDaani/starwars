@@ -26,7 +26,7 @@ const PlanetSelect = (props) => {
     while (currentPage <= 6) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_SWAP_API}/api/planets/?page=${currentPage}`
+          `${process.env.NEXT_PUBLIC_SWAP_API}/api/planets/?page=${currentPage}`
         );
 
         if (!response.ok) {
